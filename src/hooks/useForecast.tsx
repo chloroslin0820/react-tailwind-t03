@@ -6,12 +6,14 @@ const useForecast = () => {
   const [options, setOptions] = useState<Option[]>([]);
   const [city, setCity] = useState<Option | null>(null);
   const [forecast, setForecast] = useState<Forecast | null>(null);
+  const API_KEY = process.env.REACT_APP_API_KEY;
 
   const getSearchOptions = async (value: string) => {
+    
     try {
       const res = await fetch(
         `https://api.openweathermap.org/geo/1.0/direct?q=${value.trim()}&limit=5&appid=${
-          process.env.REACT_APP_API_KEY
+          API_KEY
         }`
       );
       if (!res.ok) throw new Error('Failed to fetch');
@@ -26,7 +28,7 @@ const useForecast = () => {
   const getForecast = async (city: Option) => {
     try {
       const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${city.lat}&lon=${city.lon}&units=metric&appid=${process.env.REACT_APP_API_KEY}`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${city.lat}&lon=${city.lon}&units=metric&appid=${API_KEY}`
       );
       if (!res.ok) throw new Error('Failed to fetch');
       const data = await res.json();
